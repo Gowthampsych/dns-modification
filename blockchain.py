@@ -1,91 +1,400 @@
-import hashlib
-import json
-from time import time
-import csv
+# from flask import Flask, render_template, request, redirect, url_for
+# from web3 import Web3
+# from web3.middleware import geth_poa_middleware
+# from eth_account.messages import encode_defunct
 
-# Import necessary modules
-from flask import Flask, jsonify
+# app = Flask(__name__)
+
+# # Web3 provider
+# w3 = Web3(Web3.HTTPProvider('https://eth-sepolia.g.alchemy.com/v2/5e4qRq4bZrx8gOf5K6cDK8jJSIlFnzQK'))
+# w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+
+# # Smart contract details
+# contract_address = '0xdAF3d300d50544fDd49AEb0E009879DF7148842b'
+# abi = [
+#     {
+#         "inputs": [],
+#         "stateMutability": "nonpayable",
+#         "type": "constructor"
+#     },
+#     {
+#         "anonymous": False,
+#         "inputs": [
+#             {
+#                 "indexed": False,
+#                 "internalType": "string",
+#                 "name": "data",
+#                 "type": "string"
+#             }
+#         ],
+#         "name": "CSVUploaded",
+#         "type": "event"
+#     },
+#     {
+#         "inputs": [],
+#         "name": "csvData",
+#         "outputs": [
+#             {
+#                 "internalType": "string",
+#                 "name": "",
+#                 "type": "string"
+#             }
+#         ],
+#         "stateMutability": "view",
+#         "type": "function"
+#     },
+#     {
+#         "inputs": [],
+#         "name": "getCSV",
+#         "outputs": [
+#             {
+#                 "internalType": "string",
+#                 "name": "",
+#                 "type": "string"
+#             }
+#         ],
+#         "stateMutability": "view",
+#         "type": "function"
+#     },
+#     {
+#         "inputs": [
+#             {
+#                 "internalType": "string",
+#                 "name": "_csvData",
+#                 "type": "string"
+#             }
+#         ],
+#         "name": "uploadCSV",
+#         "outputs": [],
+#         "stateMutability": "nonpayable",
+#         "type": "function"
+#     }
+# ]
+
+# contract = w3.eth.contract(address=contract_address, abi=abi)
+
+# # MetaMask private key
+# private_key = '045d7b28919e131ca606797c1f66b1fc49bb7416711390135f7f15f91b0f5838'
+
+# # Set default account
+# w3.eth.default_account = w3.eth.account.from_key(private_key).address
+
+# # Function to sign transactions
+# def sign_transaction(txn):
+#     signed_txn = w3.eth.account.sign_transaction(txn, private_key)
+#     return signed_txn.rawTransaction
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+# @app.route('/upload', methods=['POST'])
+# def upload():
+#     if request.method == 'POST':
+#         csv_data = request.form['csv_data']
+#         nonce = w3.eth.get_transaction_count(w3.eth.default_account)
+#         txn_data = contract.functions.uploadCSV(csv_data).build_transaction({
+#             'chainId': 	11155111,
+#             'gas': 2000000,
+#             'gasPrice': Web3.to_wei(1, 'gwei'),
+#             'nonce': nonce,
+#         })
+#         signed_txn = sign_transaction(txn_data)
+#         txn_hash = w3.eth.send_raw_transaction(signed_txn)
+#         receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
+#         return redirect(url_for('index'))
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+
+
+
+
+
+
+# from flask import Flask, render_template, request, redirect, url_for, Response
+# from web3 import Web3
+# from web3.middleware import geth_poa_middleware
+
+# app = Flask(__name__)
+
+# # Web3 provider
+# w3 = Web3(Web3.HTTPProvider('https://eth-sepolia.g.alchemy.com/v2/5e4qRq4bZrx8gOf5K6cDK8jJSIlFnzQK'))
+# w3.middleware_onion.inject(geth_poa_middleware, layer=0)
+
+# # Smart contract details
+# contract_address = '0xdAF3d300d50544fDd49AEb0E009879DF7148842b'
+# abi = [
+# 	{
+# 		"inputs": [],
+# 		"stateMutability": "nonpayable",
+# 		"type": "constructor"
+# 	},
+# 	{
+# 		"anonymous": False,
+# 		"inputs": [
+# 			{
+# 				"indexed": False,
+# 				"internalType": "string",
+# 				"name": "data",
+# 				"type": "string"
+# 			}
+# 		],
+# 		"name": "CSVUploaded",
+# 		"type": "event"
+# 	},
+# 	{
+# 		"inputs": [
+# 			{
+# 				"internalType": "string",
+# 				"name": "_csvData",
+# 				"type": "string"
+# 			}
+# 		],
+# 		"name": "uploadCSV",
+# 		"outputs": [],
+# 		"stateMutability": "nonpayable",
+# 		"type": "function"
+# 	},
+# 	{
+# 		"inputs": [],
+# 		"name": "csvData",
+# 		"outputs": [
+# 			{
+# 				"internalType": "string",
+# 				"name": "",
+# 				"type": "string"
+# 			}
+# 		],
+# 		"stateMutability": "view",
+# 		"type": "function"
+# 	},
+# 	{
+# 		"inputs": [],
+# 		"name": "downloadCSV",
+# 		"outputs": [
+# 			{
+# 				"internalType": "string",
+# 				"name": "",
+# 				"type": "string"
+# 			}
+# 		],
+# 		"stateMutability": "view",
+# 		"type": "function"
+# 	},
+# 	{
+# 		"inputs": [],
+# 		"name": "getCSV",
+# 		"outputs": [
+# 			{
+# 				"internalType": "string",
+# 				"name": "",
+# 				"type": "string"
+# 			}
+# 		],
+# 		"stateMutability": "view",
+# 		"type": "function"
+# 	},
+# 	{
+# 		"inputs": [],
+# 		"name": "owner",
+# 		"outputs": [
+# 			{
+# 				"internalType": "address",
+# 				"name": "",
+# 				"type": "address"
+# 			}
+# 		],
+# 		"stateMutability": "view",
+# 		"type": "function"
+# 	}
+# ]
+
+# contract = w3.eth.contract(address=contract_address, abi=abi)
+
+# # MetaMask private key
+# private_key = '045d7b28919e131ca606797c1f66b1fc49bb7416711390135f7f15f91b0f5838'
+
+# # Set default account
+# w3.eth.default_account = w3.eth.account.from_key(private_key).address
+
+# # Function to sign transactions
+# def sign_transaction(txn):
+#     signed_txn = w3.eth.account.sign_transaction(txn, private_key)
+#     return signed_txn.rawTransaction
+
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
+
+# @app.route('/upload', methods=['POST'])
+# def upload():
+#     if request.method == 'POST':
+#         # Retrieve CSV data from file
+#         csv_file = request.files['csv_file']
+#         csv_data = csv_file.read().decode('utf-8')
+        
+#         # Upload CSV data to smart contract
+#         nonce = w3.eth.get_transaction_count(w3.eth.default_account)
+#         # txn_data = {
+#         #     'to': contract_address,
+#         #     'data': contract.functions.uploadCSV(csv_data).build_transaction({
+#         #     'chainId': 	11155111,
+#         #     'gas': 2000000,
+#         #         'gasPrice': Web3.to_wei(2, 'gwei'),
+#         #         'nonce': nonce,
+#         #     }),
+#         # }
+#         txn_data = contract.functions.uploadCSV(csv_data).build_transaction({
+#              'chainId': 11155111,
+#              'gas': 2000000,
+#              'gasPrice': Web3.to_wei(1, 'gwei'),
+#              'nonce': nonce,
+#          })
+#         signed_txn = sign_transaction(txn_data)
+#         print(signed_txn)
+#         txn_hash = w3.eth.send_raw_transaction(signed_txn)
+#         print(txn_hash)
+#         receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
+#         print(receipt)
+#         return redirect(url_for('index'))
+
+# @app.route('/download')
+# def download():
+#     csv_data = contract.functions.downloadCSV().call()
+#     response = Response(csv_data, mimetype='text/csv')
+#     response.headers['Content-Disposition'] = 'attachment; filename=data.csv'
+#     return response
+
+# if __name__ == '__main__':
+#     app.run(debug=True)
+
+
+from flask import Flask, render_template, request, redirect, url_for, send_file
+from web3 import Web3
+from web3.middleware import geth_poa_middleware
+from eth_account.messages import encode_defunct
+import io
 
 app = Flask(__name__)
 
+# Web3 provider
+w3 = Web3(Web3.HTTPProvider('https://eth-sepolia.g.alchemy.com/v2/5e4qRq4bZrx8gOf5K6cDK8jJSIlFnzQK'))
+w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
-# Blockchain class definition
+# Smart contract details
+contract_address = '0x0b1080891Ef5e1a7ce0A4E604f4B11d115F161fE'
+abi = [
+    {
+        "inputs": [],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": False,
+        "inputs": [
+            {
+                "indexed": False,
+                "internalType": "string",
+                "name": "data",
+                "type": "string"
+            }
+        ],
+        "name": "CSVUploaded",
+        "type": "event"
+    },
+    {
+        "inputs": [],
+        "name": "csvData",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getCSV",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_csvData",
+                "type": "string"
+            }
+        ],
+        "name": "uploadCSV",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    }
+]
 
-class Blockchain:
-    def __init__(self):
-        self.chain = []
-        self.current_transactions = []
-        self.create_block(previous_hash='1', proof=100)  # Genesis block
+contract = w3.eth.contract(address=contract_address, abi=abi)
 
-    def create_block(self, proof, previous_hash=None):
-        block = {
-            'index': len(self.chain) + 1,
-            'timestamp': time(),
-            'transactions': self.current_transactions,
-            'proof': proof,
-            'previous_hash': previous_hash or self.hash(self.chain[-1]),
-        }
-        self.current_transactions = []  # Clear current transactions
-        self.chain.append(block)
-        return block
+# MetaMask private key
+private_key = '045d7b28919e131ca606797c1f66b1fc49bb7416711390135f7f15f91b0f5838'
 
-    def new_transaction(self, sender, recipient, amount):
-        self.current_transactions.append({
-            'sender': sender,
-            'recipient': recipient,
-            'amount': amount,
-        })
-        return self.last_block['index'] + 1  # Index of the block that will hold this transaction
+# Set default account
+w3.eth.default_account = w3.eth.account.from_key(private_key).address
 
-    def add_ip_addresses(self, csv_file):
-        with open(csv_file, 'r') as file:
-            reader = csv.DictReader(file)
-            for row in reader:
-                self.new_transaction("system", "blockchain", row['FastFlex_IP'])  # Updated to match the column name
+# Function to sign transactions
+def sign_transaction(txn):
+    signed_txn = w3.eth.account.sign_transaction(txn, private_key)
+    return signed_txn.rawTransaction
 
-    @staticmethod
-    def hash(block):
-        block_string = json.dumps(block, sort_keys=True).encode()
-        return hashlib.sha256(block_string).hexdigest()
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-    @property
-    def last_block(self):
-        return self.chain[-1]
+@app.route('/upload', methods=['POST'])
+def upload():
+    if request.method == 'POST':
+        csv_file = request.files['csv_file']
+        if csv_file:
+            csv_data = csv_file.read().decode('utf-8')  # Read CSV file contents
+            nonce = w3.eth.get_transaction_count(w3.eth.default_account)
+            txn_data = contract.functions.uploadCSV(csv_data).build_transaction({
+                'chainId': 11155111,
+                'gas': 2000000,
+                'gasPrice': Web3.to_wei(1, 'gwei'),
+                'nonce': nonce,
+            })
+            signed_txn = sign_transaction(txn_data)
+            txn_hash = w3.eth.send_raw_transaction(signed_txn)
+            receipt = w3.eth.wait_for_transaction_receipt(txn_hash)
+            return redirect(url_for('index'))
+import io
 
-    def proof_of_work(self, last_proof):
-        proof = 0
-        while self.valid_proof(last_proof, proof) is False:
-            proof += 1
-        return proof
+@app.route('/download', methods=['GET'])
+def download():
+    csv_data = contract.functions.getCSV().call()
+    if csv_data:
+        return send_file(
+            io.BytesIO(csv_data.encode('utf-8')),
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name='download.csv'
+        )
+    else:
+        return "No CSV data available for download."
 
-    @staticmethod
-    def valid_proof(last_proof, proof):
-        guess = f'{last_proof}{proof}'.encode()
-        guess_hash = hashlib.sha256(guess).hexdigest()
-        return guess_hash[:4] == "0000"
-
-
-# Example usage:
-blockchain = Blockchain()
-blockchain.add_ip_addresses("FastFlex_IPs_Predictions.csv")
-
-last_block = blockchain.last_block
-last_proof = last_block['proof']
-proof = blockchain.proof_of_work(last_proof)
-
-blockchain.create_block(proof)
-
-print("Blockchain:", blockchain.chain)
-
-
-# Define a route to get the list of malicious IP addresses from the blockchain
-@app.route('/get_malicious_ips', methods=['GET'])
-def get_malicious_ips():
-    # Assuming the list of malicious IPs is stored in the `malicious_ips` attribute of the blockchain object
-    malicious_ips = blockchain.malicious_ips
-    return jsonify({'malicious_ips': malicious_ips})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)
+    app.run(debug=True)
 
-# Path: blockchain.py

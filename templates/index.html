@@ -1,17 +1,54 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload CSV</title>
+</head>
+<body>
+    <h1>Upload CSV Data</h1>
+    <form action="/upload" method="post">
+        <textarea name="csv_data" rows="5" cols="50" placeholder="Enter CSV data here..."></textarea><br><br>
+        <button type="submit">Upload</button>
+    </form>
+</body>
+</html> -->
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Photo Display Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Upload and Download CSV</title>
 </head>
 <body>
-    <h1>Photo Display Website</h1>
-    <input type="file" id="uploadInput" accept="image/*">
-    <button onclick="uploadImage()">Upload Image</button>
-    <div id="imageContainer"></div>
+    <h1>Upload CSV Data</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="csv_file"><br><br>
+        <button type="submit">Upload</button>
+    </form>
+    <h1>Download CSV Data</h1>
+    <a href="/download">Download CSV</a>
+</body>
+</html> -->
 
-    <script src="scripts.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload and Download CSV</title>
+</head>
+<body>
+    <h1>Upload CSV File</h1>
+    <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="csv_file">
+        <button type="submit">Upload</button>
+    </form>
+    <h2>Download CSV File</h2>
+    <h1>Download CSV</h1>
+    <form action="/download" method="get">
+        <button type="submit">Download CSV</button>
+    </form> 
 </body>
 </html>
