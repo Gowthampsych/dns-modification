@@ -71,7 +71,7 @@ abi = [
 contract = w3.eth.contract(address=contract_address, abi=abi)
 
 # MetaMask private key
-private_key = '045d7b28919e131ca606797c1f66b1fc49bb7416711390135f7f15f91b0f5838'
+private_key = ''
 
 # Set default account
 w3.eth.default_account = w3.eth.account.from_key(private_key).address
