@@ -15,14 +15,6 @@ test_data = pd.read_csv("Webpages_Classification_test_data.csv")
 train_data.dropna(inplace=True)  # Drop rows with missing values
 test_data.dropna(inplace=True)
 
-# Example FastFlex IPs for testing
-fastflex_ips = {
-    '192.168.1.1',
-    '10.0.0.1',
-    '172.16.0.1',
-    '203.0.113.1',
-    '198.51.100.1'
-}
 
 # Feature Engineering
 # Considering only IP addresses for classification

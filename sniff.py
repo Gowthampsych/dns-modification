@@ -41,7 +41,7 @@ def capture_dns_packets(duration, ip_count):
     print("Capturing DNS packets on loopback interface for", duration, "seconds. Press Ctrl+C to stop...")
     try:
         packet_count = 0
-        for packet in capture.sniff_continuously(packet_count=10):
+        for packet in capture.sniff_continuously(packet_count=1001):
             packet_callback(packet, ip_count)
             packet_count += 1
             if time.time() - start_time >= duration:
